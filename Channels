@@ -1,0 +1,20 @@
+// Channels are pipes that connect concurrent goroutines
+
+package main
+
+import "fmt"
+
+func main() {
+
+	// By default sends and receives block until both the sender and receiver are ready
+	// This allowed us to wait at the end of the program for the "ping" message without any other synchronization
+
+	messages := make(chan string)
+
+	go func() { messages <- "ping" }()
+
+	msg := <-messages
+
+	fmt.Println(msg)
+
+}
