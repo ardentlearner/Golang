@@ -8,6 +8,7 @@ func main() {
 
 	// By default sends and receives block until both the sender and receiver are ready
 	// This allowed us to wait at the end of the program for the "ping" message without any other synchronization
+	// Synchronization is fundamental in the interaction between the send and receive on the channel; one cannot happen without the other
 
 	messages := make(chan string)
 
@@ -17,4 +18,3 @@ func main() {
 
 	fmt.Println(msg)
 
-}
