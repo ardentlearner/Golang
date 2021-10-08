@@ -1,2 +1,2 @@
 # Golang
-Golang Concepts
+A series of interesting concepts in Golang.
