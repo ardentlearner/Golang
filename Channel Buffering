@@ -1,0 +1,19 @@
+// Channels are unbuffered by default
+// They will only accept sends (chan <-) if there is a corresponding receive (<- chan) ready to receive the sent value
+// Buffered channels accept a number of values without a corresponding receiver for the values
+
+package main
+
+import "fmt"
+
+func main() {
+
+	messages := make(chan string, 2)
+
+	messages <- "buffered"
+	messages <- "channel"
+
+	fmt.Println(<-messages)
+	fmt.Println(<-messages)
+
+}
