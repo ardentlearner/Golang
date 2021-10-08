@@ -1,0 +1,34 @@
+// We can use channels to synchronize execution across goroutines
+// This example uses a blocking receive to wait for a goroutine to finish
+
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// Function will be run in goroutine
+
+func worker(done chan bool) {
+	fmt.Print("working... ")
+	time.Sleep(time.Second)
+	fmt.Print("done")
+
+	// Notify the channel that the work is done
+
+	done <- true
+}
+
+func main() {
+
+	// Start a worker goroutine with channel to notify on
+
+	done := make(chan bool, 1)
+	go worker(done)
+
+	// Block... until we receive a notification from the worker on the channel
+	// If the <- done line is removed then the program would exit before the worker even started
+
+	<-done
+}
