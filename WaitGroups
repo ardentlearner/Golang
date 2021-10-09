@@ -1,0 +1,53 @@
+ // To wait for multiple goroutines to finish, we can use a wait group
+
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+// This is the function that will be run in every goroutine
+
+func worker(id int) {
+	fmt.Printf("Worker %d starting\n", id)
+
+	// Sleep to simulate an expensive task
+
+	time.Sleep(time.Second)
+
+	fmt.Printf("Worker %d done\n", id)
+}
+
+func main() {
+
+	// This WaitGroup is used to wait for all the goroutines launched here to finish
+	// If a WaitGroup is explicitly passed ito functions it should be done by pointer
+	// This is important if the worker had to launch additional goroutines
+
+	var wg sync.WaitGroup
+
+	// Launch goroutines and increment WaitGroup counter for each
+
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
+
+		// Avoid re-use of the same i value in each goroutine closure
+
+		i := i
+
+		// Wrap the worker call in a closure that makes sure to tell the WaitGroup that this worker is done
+		// The worker itself does not have to be aware of the concurrency primitives involved in its execution
+
+		go func() {
+			defer wg.Done()
+			worker(i)
+		}()
+	}
+
+	// Block until the WaitGroup counter goes back to 0
+	// All the workers notified that they are done
+
+	wg.Wait()
+}
