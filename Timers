@@ -1,4 +1,4 @@
-// Timers are used to execute Go code at some point in the future, or repeatedly at some interval
+// Timers are used to execute Go code at some point in the future
 
 package main
 
